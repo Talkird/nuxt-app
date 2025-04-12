@@ -1,1 +1,0 @@
-const texto = "Hola mundo";
