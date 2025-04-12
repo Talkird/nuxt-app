@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import axios from "axios";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -7,19 +8,15 @@ export const useUserStore = defineStore("user", {
   }),
 
   actions: {
-    async registerUser(payload: { name: string; email: string }) {
-      try {
-        const response = await $fetch("/api/users/register", {
-          method: "POST",
-          body: payload,
-        });
+    async registerUser(name: string, email: string, password: string) {
+      const response = await axios.post("/api/users/register", {
+        name,
+        email,
+        password,
+      });
 
-        this.name = response.user.name;
-        this.email = response.user.email;
-      } catch (error) {
-        console.error("Registration failed:", error);
-        throw error;
-      }
+      this.name = response.data.user.name;
+      this.email = response.data.user.email;
     },
   },
 });
